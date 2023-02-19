@@ -1,10 +1,7 @@
 package hbase;
 import hbase.CRUD.*;
 import hbase.ADMIN.CreateTable;
-import hbase.CRUDMD5.DeleteDatasMD5;
-import hbase.CRUDMD5.GetDatasMD5;
-import hbase.CRUDMD5.PutDatasMD5;
-import hbase.CRUDMD5.UpdateDatasMD5;
+import hbase.CRUDMD5.*;
 
 import java.io.IOException;
 public class Main {
@@ -43,8 +40,8 @@ public class Main {
 
         ////////////////////////  CRUD (md5) //////////////////////////
         // ADD row0~99 data to mytable
-        PutDatasMD5 pd = new PutDatasMD5();
-        pd.PutData();
+//        PutDatasMD5 pd = new PutDatasMD5();
+//        pd.PutData();
 
 
         //DELETE row0~99 data from mytable
@@ -53,12 +50,16 @@ public class Main {
 
 
         // GET row 0~99 data from mytable
-        GetDatasMD5 gd =  new GetDatasMD5();
-        gd.GetData();
+//        GetDatasMD5 gd =  new GetDatasMD5();
+//        gd.GetData();
 
 
         // UPDATE row 0~99 data from mytable
 //        UpdateDatasMD5 ud =  new UpdateDatasMD5();
 //        ud.UpdateData();
+
+        // SCAN row 30~50 data from mytable2
+        ScanDatasMD5 sd  = new ScanDatasMD5();
+        sd.ScanData();
     }
 }

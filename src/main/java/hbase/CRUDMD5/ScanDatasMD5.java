@@ -1,6 +1,7 @@
 package hbase.CRUDMD5;
 
 import hbase.HBaseConnection;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -12,10 +13,12 @@ import org.apache.hadoop.hbase.util.Bytes;
 import java.io.IOException;
 
 public class ScanDatasMD5 {
-    private static final String TABLE_NAME = "mytable";
+    private static final String TABLE_NAME = "mytable2";
     private static final String FAMILY_NAME = "cf";
     private static final String QUALIFIER_NAME = "qual";
     private static final String REGEX_PATTERN = "new value[0-9]+";
+    private static final String START_ROW_KEY = "row30";
+    private static final String STOP_ROW_KEY = "row50";
 
     public static void ScanData() throws IOException {
         HBaseConnection hBaseConnection = new HBaseConnection("latte01,latte02,latte03", "2181");
@@ -24,14 +27,17 @@ public class ScanDatasMD5 {
         // Get a handle to the table
         Table table = connection.getTable(TableName.valueOf(TABLE_NAME));
         // Create a scan object with the desired start and stop row keys
-        Scan scan = new Scan(Bytes.toBytes("row30"), Bytes.toBytes("row50"));
+        String startRowKey = Bytes.toString(DigestUtils.md5(START_ROW_KEY));
+        String stopRowKey = Bytes.toString(DigestUtils.md5(STOP_ROW_KEY));
 
-        // add singleColumnValueFilter
+        Scan scan = new Scan();
+
+//         add singleColumnValueFilter
         SingleColumnValueFilter filter = new SingleColumnValueFilter(
                 Bytes.toBytes(FAMILY_NAME),
                 Bytes.toBytes(QUALIFIER_NAME),
                 CompareFilter.CompareOp.EQUAL,
-                new RegexStringComparator("new value3")
+                new RegexStringComparator("value")
         );
         scan.setFilter(filter);
         // Execute the scan and process the results
@@ -46,7 +52,7 @@ public class ScanDatasMD5 {
                 System.out.println("rowkey: " + Bytes.toString(result.getRow()) + ", column: " + family + ":" + qualifier + ", value: " +value);
             }
         }
-        System.out.println("SCAN row 30~50 datas to mytable");
+        System.out.println("SCAN row " + START_ROW_KEY+ " ~ "+ STOP_ROW_KEY+ " from mytable2");
 
         // Clean up resources
         scanner.close();
