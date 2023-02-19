@@ -1,13 +1,16 @@
 package hbase.CRUD;
-import java.io.IOException;
+
 import hbase.HBaseConnection;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-public class PutDatas {
-    public static void PutData() throws IOException {
+
+import java.io.IOException;
+
+public class GetDatas {
+    public static void GetData() throws IOException {
         HBaseConnection hBaseConnection = new HBaseConnection("latte01,latte02,latte03", "2181");
         Connection connection = hBaseConnection.getConnection();
 

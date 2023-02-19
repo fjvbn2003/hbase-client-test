@@ -9,8 +9,8 @@ import java.io.IOException;
 
 public class CreateTable {
 
-    private static final String TABLE_NAME = "employees";
-    private static final String FAMILY_NAME = "info";
+    private static final String TABLE_NAME = "mytable";
+    private static final String FAMILY_NAME = "cf";
     public static void crateEmployeeTable() throws IOException {
         HBaseConnection hBaseConnection = new HBaseConnection("latte01,latte02,latte03", "2181");
         Connection connection = hBaseConnection.getConnection();
