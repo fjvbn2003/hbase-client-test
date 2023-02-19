@@ -1,9 +1,6 @@
 package hbase;
-import hbase.CRUD.GetDatas;
-import hbase.CRUD.PutDatas;
-import hbase.CRUD.DeleteDatas;
+import hbase.CRUD.*;
 import hbase.ADMIN.CreateTable;
-import hbase.CRUD.UpdateDatas;
 
 import java.io.IOException;
 public class Main {
@@ -34,6 +31,10 @@ public class Main {
         // UPDATE row 0~99 data from mytable
 //        UpdateDatas ud =  new UpdateDatas();
 //        ud.UpdateData();
+
+        // SCAN row 30~50 data from mytable
+        ScanDatas sd  = new ScanDatas();
+        sd.ScanData();
 
     }
 }
