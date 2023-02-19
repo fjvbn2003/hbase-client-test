@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-
+import org.apache.hadoop.hbase.util.MD5Hash;
 import java.io.IOException;
 
 public class UpdateDatasMD5 {
@@ -20,7 +20,7 @@ public class UpdateDatasMD5 {
         Table table = connection.getTable(TableName.valueOf("mytable2"));
         for(int i =0; i<100; i++){
             // Create a put request
-            String rowKey = Bytes.toString(DigestUtils.md5("row"+i));
+            String rowKey = MD5Hash.getMD5AsHex(Bytes.toBytes("row"+i));
             Put put = new Put(Bytes.toBytes(rowKey));
             put.addColumn(Bytes.toBytes("cf"), Bytes.toBytes("qual"), Bytes.toBytes("new value"+i));
             // Add the put request to the table

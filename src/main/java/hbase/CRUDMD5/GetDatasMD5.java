@@ -8,6 +8,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.MD5Hash;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ public class GetDatasMD5 {
         Table table = connection.getTable(TableName.valueOf("mytable2"));
         for(int i =0; i<100; i++){
             // get all data in a row
-            String rowKey = Bytes.toString(DigestUtils.md5("row"+i));
+            String rowKey = MD5Hash.getMD5AsHex(Bytes.toBytes("row"+i));
             Get get1 = new Get(Bytes.toBytes(rowKey));
             Result result1 = table.get(get1);
             byte[] value1 = result1.getValue(Bytes.toBytes("cf"), Bytes.toBytes("qual"));

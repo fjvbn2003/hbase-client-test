@@ -7,6 +7,7 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.MD5Hash;
 
 import java.io.IOException;
 
@@ -18,7 +19,7 @@ public class DeleteDatasMD5 {
         // Get a handle to the table
         Table table = connection.getTable(TableName.valueOf("mytable2"));
         for(int i =0; i<100; i++){// Delete a single row
-            String rowKey = Bytes.toString(DigestUtils.md5("row"+i));
+            String rowKey = MD5Hash.getMD5AsHex(Bytes.toBytes(("row"+i)));
             System.out.println("row key to be deleted : "+ rowKey);
             Delete delete = new Delete(Bytes.toBytes(rowKey));
             table.delete(delete);

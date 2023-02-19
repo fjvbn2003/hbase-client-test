@@ -9,6 +9,7 @@ import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
 import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.util.MD5Hash;
 
 import java.io.IOException;
 
@@ -27,19 +28,18 @@ public class ScanDatasMD5 {
         // Get a handle to the table
         Table table = connection.getTable(TableName.valueOf(TABLE_NAME));
         // Create a scan object with the desired start and stop row keys
-        String startRowKey = Bytes.toString(DigestUtils.md5(START_ROW_KEY));
-        String stopRowKey = Bytes.toString(DigestUtils.md5(STOP_ROW_KEY));
-
-        Scan scan = new Scan();
+        byte[] startRowKey = Bytes.toBytes(MD5Hash.getMD5AsHex(Bytes.toBytes(START_ROW_KEY)));
+        byte[] stopRowKey = Bytes.toBytes(MD5Hash.getMD5AsHex(Bytes.toBytes(STOP_ROW_KEY)));
+        Scan scan = new Scan(startRowKey, stopRowKey);
 
 //         add singleColumnValueFilter
-        SingleColumnValueFilter filter = new SingleColumnValueFilter(
-                Bytes.toBytes(FAMILY_NAME),
-                Bytes.toBytes(QUALIFIER_NAME),
-                CompareFilter.CompareOp.EQUAL,
-                new RegexStringComparator("value")
-        );
-        scan.setFilter(filter);
+//        SingleColumnValueFilter filter = new SingleColumnValueFilter(
+//                Bytes.toBytes(FAMILY_NAME),
+//                Bytes.toBytes(QUALIFIER_NAME),
+//                CompareFilter.CompareOp.EQUAL,
+//                new RegexStringComparator("value")
+//        );
+//        scan.setFilter(filter);
         // Execute the scan and process the results
         ResultScanner scanner = table.getScanner(scan);
 
@@ -48,8 +48,8 @@ public class ScanDatasMD5 {
                 String family = Bytes.toString(cell.getFamilyArray(), cell.getFamilyOffset(), cell.getFamilyLength());
                 String qualifier = Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
                 String value = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
-
-                System.out.println("rowkey: " + Bytes.toString(result.getRow()) + ", column: " + family + ":" + qualifier + ", value: " +value);
+                String rowKey = Bytes.toString(result.getRow());
+                System.out.println("rowkey: " + rowKey + ", column: " + family + ":" + qualifier + ", value: " +value);
             }
         }
         System.out.println("SCAN row " + START_ROW_KEY+ " ~ "+ STOP_ROW_KEY+ " from mytable2");
