@@ -2,15 +2,27 @@ package hbase;
 import hbase.CRUD.*;
 import hbase.ADMIN.CreateTable;
 import hbase.CRUDMD5.*;
+import hbase.MAPREDUCE.WordCountMapper;
+import hbase.MAPREDUCE.WordCountReducer;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.MD5Hash;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.*;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapred.FileInputFormat;
+import org.apache.hadoop.mapred.FileOutputFormat;
+import org.apache.hadoop.mapred.TextInputFormat;
+import org.apache.hadoop.mapred.TextOutputFormat;
 
 import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        // Create employee table
+        //////////////////////// Create employee table ///////////////
 //        CreateTable ct = new CreateTable();
 //        ct.crateEmployeeTable();
 
@@ -62,14 +74,41 @@ public class Main {
 //        ud.UpdateData();
 
         // SCAN row 30~50 data from mytable2
-        ScanDatasMD5 sd  = new ScanDatasMD5();
-        sd.ScanData();
+//        ScanDatasMD5 sd  = new ScanDatasMD5();
+//        sd.ScanData();
 
 
-        //check md5
-//        String rowKey = Bytes.toString(DigestUtils.md5("row85"));
-//        System.out.println(DigestUtils.md5("row85"));
-//        System.out.println(rowKey);
-//        System.out.println(MD5Hash.getMD5AsHex(Bytes.toBytes("row85")));
+
+//        //////////////////////// SUBMIT JOB ///////////////
+//        // Create a new JobConf
+//        Configuration conf = new Configuration();
+//        // Set the resource manager address for YARN (Hadoop 2.x)
+//        conf.set("yarn.resourcemanager.address", "latte01:8040");
+//
+//        JobConf job = new JobConf(conf);
+//        job.setJobName("MyJob");
+//        job.setOutputKeyClass(Text.class);
+//        job.setOutputValueClass(IntWritable.class);
+//
+//        job.setMapperClass( WordCountMapper.class);
+//        job.setReducerClass(WordCountReducer.class);
+//
+//        job.setInputFormat(TextInputFormat.class);
+//        job.setOutputFormat(TextOutputFormat.class);
+//
+//        FileInputFormat.setInputPaths(job, new Path("hdfs://latte01:9000/tmp/simple.txt"));
+//        FileOutputFormat.setOutputPath(job, new Path("hdfs://latte01:9000/tmp/out8"));
+//
+//        JobClient client = new JobClient(job);
+//        RunningJob runningJob = client.submitJob(job);
+//
+//        // Print job information
+//        System.out.println("Job ID: " + runningJob.getID());
+//        System.out.println("Job name: " + runningJob.getJobName());
+//        System.out.println("Job status: " + runningJob.getJobState());
+//        System.out.println("Job counters: " + runningJob.getCounters());
+
+
+
     }
 }
