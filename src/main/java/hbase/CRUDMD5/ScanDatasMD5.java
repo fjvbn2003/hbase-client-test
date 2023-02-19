@@ -1,16 +1,17 @@
-package hbase.CRUD;
+package hbase.CRUDMD5;
 
 import hbase.HBaseConnection;
 import org.apache.hadoop.hbase.Cell;
-import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.*;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.RegexStringComparator;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 
-public class ScanDatas {
+public class ScanDatasMD5 {
     private static final String TABLE_NAME = "mytable";
     private static final String FAMILY_NAME = "cf";
     private static final String QUALIFIER_NAME = "qual";
